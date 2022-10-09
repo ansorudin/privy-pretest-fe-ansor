@@ -9,7 +9,7 @@ const Layout = ({ children, title }) => {
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="container mx-auto">{children}</div>
+      <div>{children}</div>
     </div>
   );
 };
