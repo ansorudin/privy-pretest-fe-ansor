@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from "next/link";
 import React from "react";
 import Button from "../../../../utils/Button";
 import TextInput from "../../../../utils/TextInput";
 
-const FormLogin = ({ formik }) => {
+const FormLogin = ({ formik, loading }) => {
   const {
     values,
     handleChange,
@@ -74,9 +75,17 @@ const FormLogin = ({ formik }) => {
         </div>
       </div>
       <div>
-        <Button type="submit" onClick={handleSubmit}>
+        <Button loading={loading} type="submit" onClick={handleSubmit}>
           Login
         </Button>
+      </div>
+      <div className="text-center">
+        <p className="text-xs">
+          Don't have accout?{" "}
+          <span className="font-medium underline cursor-pointer">
+            <Link href="/auth/register">Signup now</Link>
+          </span>
+        </p>
       </div>
     </form>
   );

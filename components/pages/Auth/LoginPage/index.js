@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import FormLogin from "./components/FormLogin";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import AuthLayout from "../components/AuthLayout";
-import axios from "axios";
+import axios from "../../../../lib/axios";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+import { useSnackbar } from "react-simple-snackbar";
 
 const LoginPage = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [openSnackbar] = useSnackbar();
 
   const LoginSchema = Yup.object().shape({
     phoneNumber: Yup.string()
@@ -30,36 +34,32 @@ const LoginPage = () => {
     validationSchema: LoginSchema,
     onSubmit: async (values, action) => {
       try {
+        setLoading(true);
         const formData = new FormData();
         formData.append("phone", values.phoneNumber);
         formData.append("password", values.password);
-        formData.append("country", values.country);
         formData.append("latlong", "2020,2020");
         formData.append("device_token", "100");
         formData.append("device_type", 2);
 
-        const res = await axios.post(
-          "http://pretest-qa.dcidev.id/api/v1/register",
-          formData,
-          {
-            headers: {
-              "Content-Type": "application/form-data",
-              Accept: "application/json",
-            },
-          }
-        );
-        if (res.data.user.id) {
-          router.push("/auth/input-otp");
+        const res = await axios.post("/api/v1/oauth/sign_in", formData);
+        if (res.data.data.user.access_token) {
+          Cookies.set("accessToken", res.data.data.user.access_token);
+          router.push("/");
+          action.resetForm();
+          openSnackbar("Login Success");
         }
-        action.resetForm();
+        setLoading(false);
       } catch (error) {
         console.log(error);
+        openSnackbar("Login Failed: check console");
+        setLoading(false);
       }
     },
   });
   return (
     <AuthLayout title="Login">
-      <FormLogin formik={formLogin} />
+      <FormLogin loading={loading} formik={formLogin} />
     </AuthLayout>
   );
 };
