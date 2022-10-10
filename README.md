@@ -8,7 +8,9 @@ npx lcp --proxyUrl "http://pretest-qa.dcidev.id" then a port will be created tha
 
 this scripts will bypass the CORS issue, but if there is no CORS issue, no need to run this script.
 
-Second, run the development server:
+Second, add the env file in the root directory, you can see an example in env.template
+
+Third, run the development server:
 
 npm run dev
 
