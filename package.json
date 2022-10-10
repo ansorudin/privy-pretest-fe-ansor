@@ -2,7 +2,6 @@
   "name": "privyid-pretest-fe",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://pretest-qa.dcidev.id",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,14 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tailwindcss/line-clamp": "^0.4.2",
     "autoprefixer": "^10.4.12",
     "axios": "^1.1.2",
     "formik": "^2.2.9",
+    "js-cookie": "^3.0.1",
+    "local-cors-proxy": "^1.1.0",
+    "moment": "^2.29.4",
     "next": "12.3.1",
     "postcss": "^8.4.17",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.2",
+    "react-simple-snackbar": "^1.1.11",
     "tailwindcss": "^3.1.8",
     "yup": "^0.32.11"
   },
