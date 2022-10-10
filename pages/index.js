@@ -4,7 +4,7 @@ import Homepage from "../components/pages/HomePage";
 
 const HomePage = () => {
   return (
-    <Layout title="Pretest PrivyID - Profile">
+    <Layout title="Pretest PrivyID - Profile" showNavbar={true}>
       <Homepage />
     </Layout>
   );

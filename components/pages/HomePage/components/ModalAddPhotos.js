@@ -4,14 +4,31 @@ import React from "react";
 import Button from "../../../utils/Button";
 import FileInput from "../../../utils/FileInput";
 import Modal from "../../../utils/Modal";
+import axios from "../../../../lib/axios";
 
-const ModalAddPhotos = ({ modalOpen, handleClose }) => {
+const ModalAddPhotos = ({ modalOpen, handleClose, callback }) => {
   const formImageGallery = useFormik({
     initialValues: {
       imageGallery: [],
     },
+    onSubmit: async (values, action) => {
+      try {
+        const promise = [];
+        values.imageGallery.forEach((image, idx) => {
+          const formData = new FormData();
+          formData.append("image", image);
+          axios.post(`/api/v1/uploads/profile`, formData);
+        });
+        Promise.all(promise);
+        action.resetForm();
+        handleClose();
+        callback();
+      } catch (error) {
+        console.log(error);
+      }
+    },
   });
-  const { values, setFieldValue } = formImageGallery;
+  const { values, setFieldValue, handleSubmit } = formImageGallery;
 
   const handleDeleteGallery = (idx) => {
     const removingFile = values.imageGallery;
@@ -62,7 +79,7 @@ const ModalAddPhotos = ({ modalOpen, handleClose }) => {
         />
       </div>
       <div className="mt-4">
-        <Button>Submit</Button>
+        <Button onClick={handleSubmit}>Submit</Button>
       </div>
     </Modal>
   );

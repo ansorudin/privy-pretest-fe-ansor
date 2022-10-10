@@ -3,21 +3,30 @@ import Image from "next/image";
 import React, { useState } from "react";
 import ModalChangeCover from "./ModalChangeCover";
 
-const SectionCoverPhoto = () => {
+const SectionCoverPhoto = ({ dataUser, callback }) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   return (
     <>
       <div className="relative w-full h-60">
         <div className="relative w-full h-full">
           <Image
-            src="https://images.unsplash.com/photo-1661956602944-249bcd04b63f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+            src={
+              dataUser?.cover_picture?.url || "/assets/images/default-cover.jpg"
+            }
             layout="fill"
             alt="cover"
             objectFit="cover"
-            className="rounded hover:opacity-60 opacity-100 transition-all"
+            className={`${
+              isHovered ? "opacity-60" : "opacity-100"
+            } rounded transition-all`}
           />
         </div>
-        <div className="z-50 absolute bottom-4 right-4">
+        <div
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className="z-30 absolute bottom-4 right-4"
+        >
           <img
             onClick={() => setModalOpen(true)}
             src="/assets/icons/image-add.svg"
@@ -27,6 +36,7 @@ const SectionCoverPhoto = () => {
         </div>
       </div>
       <ModalChangeCover
+        callback={callback}
         modalOpen={modalOpen}
         handleClose={() => setModalOpen(!modalOpen)}
       />

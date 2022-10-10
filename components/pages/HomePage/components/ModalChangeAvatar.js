@@ -6,17 +6,24 @@ import FileInput from "../../../utils/FileInput";
 import Modal from "../../../utils/Modal";
 import axios from "../../../../lib/axios";
 
-const ModalChangeCover = ({ modalOpen, handleClose, callback }) => {
+const ModalChangeAvatar = ({ modalOpen, handleClose, callback }) => {
   const formImageGallery = useFormik({
     initialValues: {
-      coverImage: null,
+      image: null,
     },
     onSubmit: async (values, action) => {
       try {
         const formData = new FormData();
-        formData.append("image", values.coverImage[0]);
-        await axios.post(`/api/v1/uploads/cover`, formData);
-        callback();
+        formData.append("image", values.image[0]);
+        const res = await axios.post(`/api/v1/uploads/profile`, formData);
+
+        if (res.data.data.user_picture) {
+          const user = new FormData();
+          user.append("id", res.data.data.user_picture.id);
+          await axios.post("/api/v1/uploads/profile/default", user);
+          callback();
+        }
+
         action.resetForm();
         handleClose();
       } catch (error) {
@@ -27,17 +34,17 @@ const ModalChangeCover = ({ modalOpen, handleClose, callback }) => {
   const { values, setFieldValue, handleSubmit } = formImageGallery;
 
   return (
-    <Modal title="Add Photo Gallery" open={modalOpen} handleClose={handleClose}>
+    <Modal title="Change Avatar" open={modalOpen} handleClose={handleClose}>
       <div className="">
-        {values.coverImage && (
+        {values.image && (
           <div className="border px-3 py-2 rounded-lg shadow flex items-center justify-between mb-3">
             <div className="flex items-center gap-4">
               <img src="/assets/icons/image.svg" alt="icon" />
-              {values.coverImage[0]?.path && (
+              {values.image[0]?.path && (
                 <p className="text-sm font-light">
-                  {values.coverImage[0]?.path.length > 30
-                    ? `${values.coverImage[0].path?.slice(0, 30)} ...`
-                    : values.coverImage[0].path}
+                  {values.image[0]?.path.length > 30
+                    ? `${values.image[0].path?.slice(0, 30)} ...`
+                    : values.image[0].path}
                 </p>
               )}
             </div>
@@ -50,11 +57,11 @@ const ModalChangeCover = ({ modalOpen, handleClose, callback }) => {
           </div>
         )}
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          Cover Photo
+          Avatar Photo
         </label>
         <FileInput
           id="gallery-upload"
-          handleImage={(e) => setFieldValue("coverImage", e)}
+          handleImage={(e) => setFieldValue("image", e)}
           acceptType="PNG, JPG, JPEG"
           maxSize="500KB"
         />
@@ -66,4 +73,4 @@ const ModalChangeCover = ({ modalOpen, handleClose, callback }) => {
   );
 };
 
-export default ModalChangeCover;
+export default ModalChangeAvatar;
