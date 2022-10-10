@@ -1,7 +1,8 @@
 import React from "react";
 import Head from "next/head";
+import Navbar from "./Navbar";
 
-const Layout = ({ children, title }) => {
+const Layout = ({ children, title, showNavbar }) => {
   return (
     <div>
       <Head>
@@ -9,6 +10,7 @@ const Layout = ({ children, title }) => {
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {showNavbar && <Navbar />}
       <div>{children}</div>
     </div>
   );
