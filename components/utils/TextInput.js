@@ -16,7 +16,7 @@ const TextInput = ({ startAddorment, endAddorment, error, ...props }) => {
           error
             ? "text-primary-red placeholder-primary-red"
             : "text-gray-900 placeholder-gray-500"
-        } relative block w-full appearance-none px-3 py-2 focus:z-10 focus:outline-none text-sm`}
+        } relative block w-full appearance-none px-3 py-2 focus:outline-none text-sm`}
       />
       {endAddorment && <span className="px-3 text-sm">{endAddorment}</span>}
     </div>

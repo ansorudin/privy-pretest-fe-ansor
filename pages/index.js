@@ -1,12 +1,11 @@
 import React from "react";
 import Layout from "../components/Layout";
+import Homepage from "../components/pages/HomePage";
 
 const HomePage = () => {
   return (
-    <Layout>
-      <div>
-        <h1>Home Page</h1>
-      </div>
+    <Layout title="Pretest PrivyID - Profile">
+      <Homepage />
     </Layout>
   );
 };
