@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 First, if the connection with the API gets a CORS error, then run this script:
 
-npx lcp --proxyUrl "http://pretest-qa.dcidev.id"
+npx lcp --proxyUrl "http://pretest-qa.dcidev.id" then a port will be created that is used to replace the url affected by the CORS issue.
 
 this scripts will bypass the CORS issue, but if there is no CORS issue, no need to run this script.
 
