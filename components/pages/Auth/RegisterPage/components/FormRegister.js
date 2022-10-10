@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from "next/link";
 import React from "react";
 import Button from "../../../../utils/Button";
 import TextInput from "../../../../utils/TextInput";
 
-const FormRegister = ({ formik }) => {
+const FormRegister = ({ formik, loading }) => {
   const {
     values,
     handleChange,
@@ -92,9 +93,17 @@ const FormRegister = ({ formik }) => {
         </div>
       </div>
       <div>
-        <Button type="submit" onClick={handleSubmit}>
+        <Button loading={loading} type="submit" onClick={handleSubmit}>
           Register
         </Button>
+      </div>
+      <div className="text-center">
+        <p className="text-xs">
+          Already have accout?{" "}
+          <span className="font-medium underline cursor-pointer">
+            <Link href="/auth/login">Sign now</Link>
+          </span>
+        </p>
       </div>
     </form>
   );

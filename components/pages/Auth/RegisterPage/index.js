@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import FormRegister from "./components/FormRegister";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import AuthLayout from "../components/AuthLayout";
-import axios from "axios";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+import axios from "../../../../lib/axios";
+import { useSnackbar } from "react-simple-snackbar";
 
 const RegisterPage = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [openSnackbar] = useSnackbar();
 
   const RegisterSchema = Yup.object().shape({
     phoneNumber: Yup.string()
@@ -32,6 +36,7 @@ const RegisterPage = () => {
     validationSchema: RegisterSchema,
     onSubmit: async (values, action) => {
       try {
+        setLoading(true);
         const formData = new FormData();
         formData.append("phone", values.phoneNumber);
         formData.append("password", values.password);
@@ -40,28 +45,24 @@ const RegisterPage = () => {
         formData.append("device_token", "100");
         formData.append("device_type", 2);
 
-        const res = await axios.post(
-          "http://pretest-qa.dcidev.id/api/v1/register",
-          formData,
-          {
-            headers: {
-              "Content-Type": "application/form-data",
-              Accept: "application/json",
-            },
-          }
-        );
-        if (res.data.user.id) {
+        const res = await axios.post("/api/v1/register", formData);
+        if (res.data) {
+          Cookies.set("userId", res.data.data.user.id);
           router.push("/auth/input-otp");
         }
         action.resetForm();
+        setLoading(false);
+        openSnackbar("Register Success");
       } catch (error) {
         console.log(error);
+        setLoading(false);
+        openSnackbar("Register Failed");
       }
     },
   });
   return (
     <AuthLayout title="Registration">
-      <FormRegister formik={formRegister} />
+      <FormRegister formik={formRegister} loading={loading} />
     </AuthLayout>
   );
 };
