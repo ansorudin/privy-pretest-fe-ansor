@@ -2,12 +2,18 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First, if the connection with the API gets a CORS error, then run this script:
 
-```bash
+npx lcp --proxyUrl "http://pretest-qa.dcidev.id"
+
+this scripts will bypass the CORS issue, but if there is no CORS issue, no need to run this script.
+
+Second, run the development server:
+
 npm run dev
+
 # or
+
 yarn dev
-```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
